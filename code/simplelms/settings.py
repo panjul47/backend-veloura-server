@@ -108,23 +108,35 @@ TEMPLATES = [
 WSGI_APPLICATION = 'simplelms.wsgi.application'
 
 # ─── DATABASE ─────────────────────────────────────────────────────────────────
-# Django ORM menggunakan parameterized queries — aman dari SQL injection
-# Railway menyediakan variabel PGHOST, PGPORT, dll secara otomatis
+# Mendukung DATABASE_URL (Render/Supabase) atau variabel terpisah (Railway)
 
-DATABASES = {
-    'default': {
-        'ENGINE':   'django.db.backends.postgresql_psycopg2',
-        'NAME':     os.environ.get('POSTGRES_DB')   or os.environ.get('PGDATABASE', 'veloura_db'),
-        'USER':     os.environ.get('POSTGRES_USER') or os.environ.get('PGUSER', 'veloura_user'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD') or os.environ.get('PGPASSWORD', ''),
-        'HOST':     os.environ.get('POSTGRES_HOST') or os.environ.get('PGHOST', 'postgres'),
-        'PORT':     os.environ.get('POSTGRES_PORT') or os.environ.get('PGPORT', '5432'),
-        'OPTIONS': {
-            'connect_timeout': 10,
-        },
-        'CONN_MAX_AGE': 60,
+import dj_database_url
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    # Render / Supabase — pakai connection string
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=60,
+            conn_health_checks=True,
+        )
     }
-}
+else:
+    # Railway / lokal — pakai variabel terpisah
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.postgresql_psycopg2',
+            'NAME':     os.environ.get('POSTGRES_DB')   or os.environ.get('PGDATABASE', 'veloura_db'),
+            'USER':     os.environ.get('POSTGRES_USER') or os.environ.get('PGUSER', 'veloura_user'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD') or os.environ.get('PGPASSWORD', ''),
+            'HOST':     os.environ.get('POSTGRES_HOST') or os.environ.get('PGHOST', 'postgres'),
+            'PORT':     os.environ.get('POSTGRES_PORT') or os.environ.get('PGPORT', '5432'),
+            'OPTIONS':  {'connect_timeout': 10},
+            'CONN_MAX_AGE': 60,
+        }
+    }
 
 # ─── CACHE (untuk throttling Django Ninja) ────────────────────────────────────
 
