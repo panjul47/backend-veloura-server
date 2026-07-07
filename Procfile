@@ -1,0 +1,1 @@
+web: python code/manage.py migrate --noinput && python code/manage.py collectstatic --noinput && python -m gunicorn simplelms.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 60 --chdir code
