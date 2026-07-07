@@ -489,7 +489,7 @@ def get_booking_stats(request):
     }
 
 
-@apiv1.post("bookings/create/", auth=apiAuth, tags=["Booking"],
+@apiv1.post("create-booking/", auth=apiAuth, tags=["Booking"],
             throttle=[UserRateThrottle('5/m')])
 def create_booking(request, data: BookingCreate):
     """
@@ -650,7 +650,7 @@ def get_my_bookings(request, filters: BookingFilter = Query(...), page: int = 1)
     return [_build_booking(b) for b in items]
 
 
-@apiv1.post("reviews/create/", auth=apiAuth, tags=["Auth - Protected"],
+@apiv1.post("create-review/", auth=apiAuth, tags=["Auth - Protected"],
             throttle=[UserRateThrottle('10/m')])
 def create_review(request, data: ReviewCreate):
     """
