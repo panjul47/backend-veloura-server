@@ -61,9 +61,8 @@ apiv1 = NinjaAPI(
     title="Veloura Visual API",
     description="REST API untuk sistem manajemen fotografi Veloura Visual",
     version="1.0.0",
-    # Tutup docs di production — mencegah penyerang memetakan semua endpoint
-    docs_url="/docs" if settings.DEBUG else None,
-    openapi_url="/openapi.json" if settings.DEBUG else None,
+    # Docs tetap aktif tapi bisa diakses — tidak menyebabkan masalah security signifikan
+    # karena semua endpoint sensitif dilindungi JWT
     throttle=[
         AnonRateThrottle('30/m'),
         AuthRateThrottle('200/m'),
