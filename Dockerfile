@@ -15,6 +15,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy source code
 COPY code/ /code/
 
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Buat folder yang diperlukan
 RUN mkdir -p /code/logs /code/staticfiles /code/media
 
@@ -27,4 +31,4 @@ RUN chown -R appuser:appgroup /code
 # Switch ke non-root user
 USER appuser
 
-CMD ["gunicorn", "simplelms.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+CMD ["/entrypoint.sh"]
