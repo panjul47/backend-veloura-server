@@ -17,12 +17,10 @@ if not SECRET_KEY:
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-_allowed = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
+_allowed = os.environ.get('ALLOWED_HOSTS', '')
 ALLOWED_HOSTS = [h.strip() for h in _allowed.split(',') if h.strip()]
-
-# Railway healthcheck menggunakan 'healthcheck.railway.app' sebagai Host header
-# Tambahkan otomatis agar tidak perlu update manual setiap deploy
-ALLOWED_HOSTS += ['localhost', '127.0.0.1', '.railway.app']
+# Selalu izinkan semua subdomain Railway (healthcheck, internal, custom domain)
+ALLOWED_HOSTS += ['.railway.app', 'localhost', '127.0.0.1']
 
 # ─── APPLICATIONS ─────────────────────────────────────────────────────────────
 
