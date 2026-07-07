@@ -1,0 +1,32 @@
+# Secret & credentials
+.env
+.env.production
+*.pem
+*.key
+*.pub
+
+# Database
+postgres-data/
+code/db.sqlite3
+
+# Media & static (generated)
+code/media/
+code/staticfiles/
+
+# Python cache
+code/**/__pycache__/
+code/__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+code/logs/*.log
+code/logs/
+
+# Local dev overrides
+code/simplelms/local_settings.py
+
+# JWT keys (generated at runtime)
+code/jwt-signing.pem
+code/jwt-signing.pub

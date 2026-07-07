@@ -1,0 +1,16 @@
+client_id,package_id,event_type,event_date,location,notes,status,total_price
+2,4,wedding,2025-03-12,Jakarta Selatan,Mohon datang 30 menit lebih awal,done,800000
+3,2,daily,2025-04-05,Depok,Sesi foto outdoor,done,600000
+4,6,wedding,2025-05-20,Bandung,Pernikahan outdoor di kebun,confirmed,3500000
+5,3,graduation,2025-05-05,Semarang,Wisuda Universitas Diponegoro,done,1200000
+6,5,birthday,2025-06-15,Surabaya,Ulang tahun ke-30,pending,1800000
+7,1,daily,2025-04-20,Jakarta Pusat,Foto OOTD untuk konten Instagram,done,300000
+8,4,corporate,2025-07-01,Jakarta Barat,Peluncuran produk perusahaan,confirmed,800000
+9,2,daily,2025-03-28,Yogyakarta,Sesi couple pre-wedding casual,done,600000
+10,6,wedding,2025-08-10,Bali,Pernikahan mewah di tepi pantai,pending,3500000
+11,5,graduation,2025-06-20,Malang,Wisuda Universitas Brawijaya,confirmed,1800000
+12,3,birthday,2025-05-30,Bekasi,Ulang tahun anak pertama,done,1200000
+13,1,daily,2025-04-10,Tangerang,Foto produk UMKM,done,300000
+14,4,corporate,2025-09-05,Jakarta Timur,Annual company gathering,pending,800000
+15,2,daily,2025-07-15,Bogor,Foto keluarga di alam terbuka,confirmed,600000
+16,6,wedding,2025-10-20,Lombok,Destination wedding,pending,3500000

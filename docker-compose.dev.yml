@@ -1,0 +1,53 @@
+# docker-compose.dev.yml — Development lokal
+# Jalankan: docker-compose -f docker-compose.dev.yml up
+#
+# Perbedaan dari production:
+#   - DEBUG=True (tampilkan traceback, silk aktif, docs API terbuka)
+#   - runserver (bukan gunicorn)
+#   - Port DB di-expose ke host untuk akses langsung
+#   - Password DB sederhana
+
+services:
+
+  django:
+    container_name: simple_lms
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py make_rsa || true &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./code:/code
+    ports:
+      - "8001:8000"
+    environment:
+      SECRET_KEY:           dev-secret-key-not-for-production-only
+      DEBUG:                "True"
+      ALLOWED_HOSTS:        "localhost,127.0.0.1"
+      POSTGRES_DB:          simple_lms
+      POSTGRES_USER:        simple_user
+      POSTGRES_PASSWORD:    simple_password
+      POSTGRES_HOST:        postgres
+      POSTGRES_PORT:        "5432"
+      CORS_ALLOWED_ORIGINS: "http://localhost:5173"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    container_name: simple_db
+    image: postgres:16
+    environment:
+      POSTGRES_DB:       simple_lms
+      POSTGRES_USER:     simple_user
+      POSTGRES_PASSWORD: simple_password
+      PGDATA:            /var/lib/postgresql/data/pgdata
+    ports:
+      - "5532:5432"   # expose di dev untuk akses langsung via psql/DBeaver
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U simple_user -d simple_lms"]
+      interval: 5s
+      timeout: 5s
+      retries: 10

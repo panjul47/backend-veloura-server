@@ -1,0 +1,7 @@
+name,description,price,duration,package_type,package_tier,is_featured
+Harian Basic,Cocok untuk sesi foto santai OOTD atau konten harian.,300000,2 jam,harian,basic,False
+Harian Standard,Ideal untuk sesi foto personal couple atau konten kreator.,600000,4 jam,harian,standard,True
+Harian Premium,Full day coverage untuk kebutuhan foto harian yang intensif.,1200000,Full Day,harian,premium,False
+Event Basic,Untuk acara kecil seperti ulang tahun arisan atau gathering.,800000,3 jam,event,basic,False
+Event Standard,Ideal untuk pernikahan wisuda atau acara semi-formal.,1800000,6 jam,event,standard,True
+Event Premium,Liputan penuh untuk event besar korporat atau pernikahan mewah.,3500000,Full Day,event,premium,False

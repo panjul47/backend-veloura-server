@@ -1,0 +1,10 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "sh -c 'cd /code && python manage.py migrate --noinput && python manage.py collectstatic --noinput && python manage.py make_rsa || true && python -m gunicorn simplelms.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 60'"
+healthcheckPath = "/api/v1/packages/"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
