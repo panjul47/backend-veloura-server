@@ -614,7 +614,7 @@ def get_reviews(request, filters: ReviewFilter = Query(...), page: int = 1):
             'id':              r.id,
             'rating':          r.rating,
             'comment':         r.comment,
-            'photo':           request.build_absolute_uri(r.photo.url) if r.photo else None,
+            'photo':           r.photo_url or (request.build_absolute_uri(r.photo.url) if r.photo else None),
             'date':            str(r.created_at.date()),
             'client_username': r.booking.client.username,
             'client_fullname': f"{r.booking.client.first_name} {r.booking.client.last_name}".strip(),

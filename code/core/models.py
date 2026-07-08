@@ -215,7 +215,9 @@ class Review(models.Model):
                                       related_name='review')
     rating     = models.PositiveSmallIntegerField("rating", choices=RATING_CHOICES, default=5)
     comment    = models.TextField("komentar")
-    photo      = models.ImageField("foto klien", upload_to='reviews/', null=True, blank=True)
+    photo      = models.ImageField("foto klien (upload)", upload_to='reviews/', null=True, blank=True)
+    photo_url  = models.URLField("foto klien (URL)", blank=True, null=True,
+                                  help_text="Isi URL gambar eksternal (imgur, dll) jika tidak upload file")
     is_public  = models.BooleanField("tampilkan di publik", default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
