@@ -489,6 +489,58 @@ def get_booking_stats(request):
     }
 
 
+class BookingCreatePublic(Schema):
+    """Schema booking tanpa JWT — gunakan username untuk identify client"""
+    username: str
+    package_id: int
+    event_type: str
+    event_date: str
+    location: str
+    notes: str = ""
+
+    @validator("event_type")
+    def validate_event_type(cls, value):
+        valid = ['wedding', 'graduation', 'birthday', 'corporate', 'daily', 'other']
+        if value not in valid:
+            raise ValueError(f"event_type harus salah satu dari: {', '.join(valid)}")
+        return value
+
+    @validator("location")
+    def validate_location(cls, value):
+        if len(value.strip()) < 5:
+            raise ValueError("Lokasi harus lebih dari 5 karakter")
+        return value
+
+
+@apiv1.post("book/", tags=["Booking"])
+def create_booking_public(request, data: BookingCreatePublic):
+    """
+    Buat booking — identifikasi user dari username di body request.
+    Tidak memerlukan JWT token.
+    """
+    try:
+        client = User.objects.get(username=data.username)
+    except User.DoesNotExist:
+        raise HttpError(404, "User tidak ditemukan. Silakan register terlebih dahulu.")
+
+    try:
+        package = Package.objects.get(pk=data.package_id)
+    except Package.DoesNotExist:
+        raise HttpError(404, "Paket tidak ditemukan")
+
+    booking = Booking.objects.create(
+        client=client, package=package,
+        event_type=data.event_type, event_date=data.event_date,
+        location=data.location, notes=data.notes,
+    )
+    return {
+        'id': booking.id, 'status': booking.get_status_display(),
+        'total_price': booking.total_price, 'event_date': str(booking.event_date),
+        'package': package.name, 'client': client.username,
+        'message': "Booking berhasil dibuat",
+    }
+
+
 @apiv1.post("create-booking/", auth=apiAuth, tags=["Booking"],
             throttle=[UserRateThrottle('5/m')])
 def create_booking(request, data: BookingCreate):
